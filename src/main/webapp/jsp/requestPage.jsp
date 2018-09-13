@@ -11,7 +11,7 @@
     <title>Send Request</title>
 </head>
 <body>
-    <form id="sendRequest" method="post" action ="${pageContext.request.contextPath}/add">
+    <form id="sendRequest" method="post" action ="${pageContext.request.contextPath}/sendReques">
 
         <div class="input-group">
             <label for = "firstName">First name</label>
