@@ -10,7 +10,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class RequestController {
@@ -29,7 +28,25 @@ public class RequestController {
 
     @RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
     private String sendRequest(@RequestBody MultiValueMap<String, String> requestParams, Model model) {
-        requestService.addRequestByParam(requestParams);
+        Request request = requestService.createRequestByParams(requestParams);
+        String[] messages = requestService.checkRequest(request);
+        if (messages[0] == null && messages[1] == null && messages[2] == null) {
+            if (requestService.addRequest(request)) {
+                model.addAttribute("requestMessage", "Request sent successfully");
+            } else {
+                model.addAttribute("requestMessage", "Error while sending request");
+            }
+        } else {
+            if (messages[0]!=null) {
+                model.addAttribute("mobileNumberMessage" , messages[0]);
+            }
+            if (messages[1]!=null) {
+                model.addAttribute("binMesage" , messages[1]);
+            }
+            if (messages[2]!=null) {
+                model.addAttribute("dublicateMessage", messages[2]);
+            }
+        }
         return "requestPage";
     }
 

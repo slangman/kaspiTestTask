@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -36,15 +39,16 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public boolean addRequestByParam(MultiValueMap<String, String> requestParams) {
-        /*Request request = new Request();
+    public Request createRequestByParams(MultiValueMap<String, String> requestParams) {
+        Request request = new Request();
         request.setFirstName(requestParams.get("firstName").get(0));
         request.setMiddleName(requestParams.get("middleName").get(0));
         request.setSecondName(requestParams.get("secondName").get(0));
         request.setCompanyName(requestParams.get("companyName").get(0));
         request.setBin(requestParams.get("bin").get(0));
-        request.setMobileNumber(requestParams.get("mobileNumber").get(0));*/
-        return false;
+        request.setMobileNumber(requestParams.get("mobileNumber").get(0));
+        request.setCompanyNameAbb(generateAbbreviation(requestParams.get("companyName").get(0)));
+        return request;
     }
 
     //@Override
@@ -57,24 +61,62 @@ public class RequestServiceImpl implements RequestService {
         return sb.toString().toUpperCase();
     }
 
-    private String checkRequestForDuplicates(Request request) {
-        List<Request> requestsList = requestDao.getAllRequests();
-        return null;
+    @Override
+    public String[] checkRequest(Request request) {
+        String[] messages = new String[3];
+        if (!mobileNumberIsValid(request.getMobileNumber())) {
+            messages[0] = "Wrong mobile number format";
+        }
+        if (!binIsValid(request.getBin())) {
+            messages[1] = "Bin length must be 12 characters containing only digits";
+        }
+        if (containsDuplicates(request)) {
+            messages[2] = "Request with same parameters have already been sent";
+        }
+        return messages;
     }
 
-    private boolean checkForNameDuplicates(Request request) {
+    private boolean containsDuplicates(Request request) {
         boolean result = false;
-        List<Request> requestList = requestDao.getAllRequests();
-        for (Request req : requestList) {
+        if (request == null) {
+            return false;
+        }
+        List<Request> requests = requestDao.getAllRequests();
+        if (requests.isEmpty()) {
+            return false;
+        } else {
+            result = containsNameDuplicates(request, requests) &&
+                    containsMobileNumberDuplicates(request, requests) &&
+                    containsCompanyNameDuplicates(request,requests) &&
+                    containsBinDuplicates(request, requests);
+        }
+        return result;
+    }
+
+    private boolean mobileNumberIsValid(String mobileNumber) {
+        Pattern pattern = Pattern.compile("[+]7[-]\\d{3}[-]\\d{7}");
+        Matcher matcher = pattern.matcher(mobileNumber);
+        return matcher.matches();
+    }
+
+    private boolean binIsValid(String bin) {
+        Pattern pattern = Pattern.compile("\\d{12}");
+        Matcher matcher = pattern.matcher(bin);
+        return matcher.matches();
+    }
+
+    private boolean containsNameDuplicates(Request request, List<Request> requests) {
+        boolean result = false;
+        for (Request existingRequest : requests) {
             if (request.getMiddleName() != null) {
-                if (request.getFirstName().equals(req.getFirstName()) &&
-                        request.getMiddleName().equals(req.getMiddleName()) &&
-                        request.getSecondName().equals(req.getSecondName())) {
+                if (request.getFirstName().equals(existingRequest.getFirstName()) &&
+                        request.getMiddleName().equals(existingRequest.getMiddleName()) &&
+                        request.getSecondName().equals(existingRequest.getSecondName())) {
                     result = true;
                 }
             } else {
-                if (request.getFirstName().equals(req.getFirstName()) &&
-                        request.getSecondName().equals(req.getSecondName())) {
+                if (request.getFirstName().equals(existingRequest.getFirstName()) &&
+                        request.getSecondName().equals(existingRequest.getSecondName())) {
                     result = true;
                 }
             }
@@ -82,5 +124,34 @@ public class RequestServiceImpl implements RequestService {
         return result;
     }
 
+    private boolean containsMobileNumberDuplicates(Request request, List<Request> requests) {
+        boolean result = false;
+        for (Request existingRequest : requests) {
+            if (request.getMobileNumber().equals(existingRequest.getMobileNumber())) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    private boolean containsCompanyNameDuplicates(Request request, List<Request> requests) {
+        boolean result = false;
+        for (Request existingRequest : requests) {
+            if (request.getCompanyName().equals(existingRequest.getCompanyName())) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    private boolean containsBinDuplicates(Request request, List<Request> requests) {
+        boolean result = false;
+        for (Request existingRequest : requests) {
+            if (request.getBin().equals(existingRequest.getBin())) {
+                result = true;
+            }
+        }
+        return result;
+    }
 
 }

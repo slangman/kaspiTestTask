@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface RequestDao {
     Request getRequestById(int id);
-    List<Request> getAllRequests();
+    List getAllRequests();
     boolean addRequest(Request request);
 }

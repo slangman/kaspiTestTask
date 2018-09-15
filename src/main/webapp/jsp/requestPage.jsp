@@ -11,43 +11,55 @@
     <title>Send Request</title>
 </head>
 <body>
-    <form id="sendRequest" method="post" action ="${pageContext.request.contextPath}/sendReques">
+<div>
+    <form id="sendRequest" method="post" action ="${pageContext.request.contextPath}/sendRequest">
 
         <div class="input-group">
-            <label for = "firstName">First name</label>
+            <label for = "firstName">First name</label><br>
             <input type="text" name="firstName" id="firstName">
         </div>
 
         <div class="input-group">
-            <label for = "middleName">Middle name</label>
+            <label for = "middleName">Middle name</label><br>
             <input type="text" name = "middleName" id = "middleName">
         </div>
 
         <div class="input-group">
-            <label for = "lastName">Last name</label>
-            <input type="text" name="lastName" id = "lastName">
+            <label for = "secondName">Last name</label><br>
+            <input type="text" name="secondName" id = "secondName">
         </div>
 
         <div class="input-group">
-            <label for = "companyName">Company name</label>
+            <label for = "companyName">Company name</label><br>
             <input type="text" name="companyName" id = "companyName">
         </div>
 
         <div class="input-group">
-            <label for = "bin">BIN</label>
+            <label for = "bin">BIN (12 digits)</label><br>
             <input type="text" name="bin" id = "bin">
         </div>
 
         <div class="input-group">
-            <label for = "mobileNumber">Mobile number</label>
+            <label for = "mobileNumber">Mobile number (format: +7-XXX-XXXXXXX)</label><br>
             <input type="text" name="mobileNumber" id = "mobileNumber">
         </div>
-
-        <label for="taskDescription">Task description</label>
-        <input type="text" id="taskDescription" name="taskDescription">
-
+        <br>
         <button type="submit" class="btn btn-info btn-flat">OK</button>
 
     </form>
+</div>
+<div class="message-box">
+    <c:set var="mobileNumberMessage" value="${requestScope.get('mobileNumberMessage')}"/>
+    <c:if test="${mobileNumberMessage!=null}">${mobileNumberMessage}</c:if>
+    <br>
+    <c:set var="binMesage" value="${requestScope.get('binMesage')}"/>
+    <c:if test="${binMesage!=null}">${binMesage}</c:if>
+    <br>
+    <c:set var="dublicateMessage" value="${requestScope.get('dublicateMessage')}"/>
+    <c:if test="${dublicateMessage!=null}">${dublicateMessage}</c:if>
+    <br>
+    <c:set var="requestMessage" value="${requestScope.get('requestMessage')}"/>
+    <c:if test="${requestMessage!=null}">${requestMessage}</c:if>
+</div>
 </body>
 </html>

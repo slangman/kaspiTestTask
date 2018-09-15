@@ -9,6 +9,7 @@ public interface RequestService {
     Request getRequestById(int id);
     List<Request> getAllRequests();
     boolean addRequest(Request request);
-    boolean addRequestByParam(MultiValueMap<String, String> requestParams);
-    //String generateAbbreviation(String companyName);
+    Request createRequestByParams(MultiValueMap<String, String> requestParams);
+    String[] checkRequest(Request request);
+    //boolean containsDuplicates(Request request);
 }

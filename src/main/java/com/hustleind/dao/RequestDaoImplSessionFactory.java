@@ -1,29 +1,40 @@
 package com.hustleind.dao;
 
 import com.hustleind.entity.Request;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class RequestDaoImpl implements RequestDao {
+public class RequestDaoImplSessionFactory {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    /*private final SessionFactory factory;
+
+    @Autowired
+    public RequestDaoImplSessionFactory (SessionFactory factory) {
+        this.factory = factory;
+    }
+
+    *//*@PersistenceContext
+    private EntityManager entityManager;*//*
+
 
     @Override
     public Request getRequestById(int id) {
         if (id < 0) {
             return null;
         }
-        return entityManager.find(Request.class, id);
+        Session session = factory.getCurrentSession();
+        return session.get(Request.class, id);
     }
 
     @Override
     public List<Request> getAllRequests() {
-        return (List<Request>)entityManager.createQuery("FROM Request as request").getResultList();
+        Session session = factory.getCurrentSession();
+        return (List<Request>) session.createQuery("FROM Request").getResultList();
     }
 
     @Override
@@ -31,11 +42,12 @@ public class RequestDaoImpl implements RequestDao {
         if (request == null) {
             return false;
         }
-        entityManager.persist(request);
+        Session session = factory.getCurrentSession();
+        session.save(request);
         return true;
     }
 
-    /*public boolean containsNameDuplicates(Request request) {
+    *//*public boolean containsNameDuplicates(Request request) {
         if (request==null || request.getFirstName()==null || request.getSecondName()==null) {
             return false;
         }
@@ -58,9 +70,9 @@ public class RequestDaoImpl implements RequestDao {
                     .getResultList();
         }
         return !resultList.isEmpty();
-    }*/
+    }*//*
 
-    /*public boolean containsMobileNumberDuplicates(Request request) {
+    *//*public boolean containsMobileNumberDuplicates(Request request) {
         if (request==null || request.getMobileNumber()==null) {
             return false;
         }
@@ -68,6 +80,6 @@ public class RequestDaoImpl implements RequestDao {
         String mobileNumber = request.getMobileNumber();
         resultList = entityManager.createQuery("FROM Request r WHERE r.mobileNumber")
 
-    }*/
-
+    }*//*
+*/
 }
