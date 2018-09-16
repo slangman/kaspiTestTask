@@ -39,8 +39,21 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    public boolean editRequest(Request request) {
+        return requestDao.editRequest(request);
+    }
+
+    @Override
+    public boolean deleteRequest(Request request) {
+        return requestDao.deleteRequest(request);
+    }
+
+    @Override
     public Request createRequestByParams(MultiValueMap<String, String> requestParams) {
         Request request = new Request();
+        if (requestParams.get("requestId").get(0)!=null) {
+            request.setId(Integer.parseInt(requestParams.get("requestId").get(0)));
+        }
         request.setFirstName(requestParams.get("firstName").get(0));
         request.setMiddleName(requestParams.get("middleName").get(0));
         request.setSecondName(requestParams.get("secondName").get(0));
@@ -76,6 +89,25 @@ public class RequestServiceImpl implements RequestService {
         return messages;
     }
 
+    /**
+     * Verifies {@link Request#mobileNumber} and {@link Request#bin} fields of edited/updated request.
+     * Edited request might duplicate existing one.
+     *
+     * @param request
+     * @return array of messages
+     */
+    @Override
+    public String[] checkEditedRequest(Request request) {
+        String[] messages = new String[2];
+        if (!mobileNumberIsValid(request.getMobileNumber())) {
+            messages[0] = "Wrong mobile number format";
+        }
+        if (!binIsValid(request.getBin())) {
+            messages[1] = "Bin length must be 12 characters containing only digits";
+        }
+        return messages;
+    }
+
     private boolean containsDuplicates(Request request) {
         boolean result = false;
         if (request == null) {
@@ -87,7 +119,7 @@ public class RequestServiceImpl implements RequestService {
         } else {
             result = containsNameDuplicates(request, requests) &&
                     containsMobileNumberDuplicates(request, requests) &&
-                    containsCompanyNameDuplicates(request,requests) &&
+                    containsCompanyNameDuplicates(request, requests) &&
                     containsBinDuplicates(request, requests);
         }
         return result;

@@ -8,4 +8,6 @@ public interface RequestDao {
     Request getRequestById(int id);
     List getAllRequests();
     boolean addRequest(Request request);
+    boolean editRequest(Request request);
+    boolean deleteRequest(Request request);
 }

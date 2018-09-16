@@ -2,16 +2,23 @@ package com.hustleind.dao;
 
 import com.hustleind.entity.Request;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+@Transactional
 @Repository
 public class RequestDaoImpl implements RequestDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+   /*@Autowired
+    public RequestDaoImpl(SessionFactory factory) {
+        this.factory = factory;
+    }*/
 
     @Override
     public Request getRequestById(int id) {
@@ -21,9 +28,10 @@ public class RequestDaoImpl implements RequestDao {
         return entityManager.find(Request.class, id);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<Request> getAllRequests() {
-        return (List<Request>)entityManager.createQuery("FROM Request as request").getResultList();
+        return (List<Request>)entityManager.createQuery("FROM Request").getResultList();
     }
 
     @Override
@@ -35,39 +43,31 @@ public class RequestDaoImpl implements RequestDao {
         return true;
     }
 
-    /*public boolean containsNameDuplicates(Request request) {
-        if (request==null || request.getFirstName()==null || request.getSecondName()==null) {
+    @Override
+    public boolean editRequest(Request request) {
+        if (request == null) {
             return false;
         }
-        List<Request> resultList = new ArrayList<>();
-        String firstName = request.getFirstName();
-        String middleName = request.getMiddleName();
-        String secondName = request.getSecondName();
-        if (middleName != null) {
-            resultList = entityManager.createQuery("FROM Request r WHERE r.firstName = " +
-                    ":firstName, r.secondName = :secondName, r.middleName = middleName")
-                    .setParameter("firstName", firstName)
-                    .setParameter("secondName", secondName)
-                    .setParameter("middleName", middleName)
-                    .getResultList();
-        } else {
-            resultList = entityManager.createQuery("FROM Request r WHERE r.firstName = " +
-                    ":firstName, r.secondName = :secondName")
-                    .setParameter("firstName", firstName)
-                    .setParameter("secondName", secondName)
-                    .getResultList();
-        }
-        return !resultList.isEmpty();
-    }*/
+        Request editedRequest = getRequestById(request.getId());
+        editedRequest.setFirstName(request.getFirstName());
+        editedRequest.setSecondName(request.getSecondName());
+        editedRequest.setMiddleName(request.getMiddleName());
+        editedRequest.setCompanyName(request.getCompanyName());
+        editedRequest.setCompanyNameAbb(request.getCompanyNameAbb());
+        editedRequest.setBin(request.getBin());
+        editedRequest.setMobileNumber(request.getMobileNumber());
+        entityManager.flush();
+        return true;
+    }
 
-    /*public boolean containsMobileNumberDuplicates(Request request) {
-        if (request==null || request.getMobileNumber()==null) {
+    @Override
+    public boolean deleteRequest(Request request) {
+        if (request==null) {
             return false;
         }
-        List<Request> resultList = new ArrayList<>();
-        String mobileNumber = request.getMobileNumber();
-        resultList = entityManager.createQuery("FROM Request r WHERE r.mobileNumber")
+        entityManager.remove(request);
+        return true;
+    }
 
-    }*/
 
 }
