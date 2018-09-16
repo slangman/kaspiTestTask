@@ -24,7 +24,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Request getRequestById(int id) {
+    public Request getRequestById(Long id) {
         return requestDao.getRequestById(id);
     }
 
@@ -51,8 +51,8 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public Request createRequestByParams(MultiValueMap<String, String> requestParams) {
         Request request = new Request();
-        if (requestParams.get("requestId").get(0)!=null) {
-            request.setId(Integer.parseInt(requestParams.get("requestId").get(0)));
+        if (requestParams.get("requestId")!=null) {
+            request.setId(Long.parseLong(requestParams.get("requestId").get(0)));
         }
         request.setFirstName(requestParams.get("firstName").get(0));
         request.setMiddleName(requestParams.get("middleName").get(0));

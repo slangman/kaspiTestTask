@@ -62,7 +62,7 @@ public class RequestController {
     }
 
     @RequestMapping(value = "/viewRequest/{id}", method = RequestMethod.GET)
-    private String viewRequest(@PathVariable("id") int id, Model model) {
+    private String viewRequest(@PathVariable("id") Long id, Model model) {
         Request requestForView = requestService.getRequestById(id);
         model.addAttribute("requestForView", requestForView);
         return "viewRequest";
@@ -76,7 +76,7 @@ public class RequestController {
      * @return
      */
     @RequestMapping(value = "/editRequest/{id}", method = RequestMethod.GET)
-    private String editRequestPage(@PathVariable("id") int id, Model model) {
+    private String editRequestPage(@PathVariable("id") Long id, Model model) {
         Request requestForEdit = requestService.getRequestById(id);
         model.addAttribute("requestForEdit", requestForEdit);
         return "requestPage";
@@ -104,7 +104,7 @@ public class RequestController {
     }
 
     @RequestMapping(value="/deleteRequest/{id}", method=RequestMethod.GET)
-    private String deleteRequest(@PathVariable("id") int id, Model model) {
+    private String deleteRequest(@PathVariable("id") Long id, Model model) {
         Request requestToDelete = requestService.getRequestById(id);
         if (!requestService.deleteRequest(requestToDelete)) {
             model.addAttribute("deleteMessage", "Unable to delete request");

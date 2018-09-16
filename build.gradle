@@ -28,5 +28,6 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.3.1.Final'
     compileOnly 'org.projectlombok:lombok:1.18.0'
     //testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+    //compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+    compile group: 'com.h2database', name: 'h2', version: '1.4.197'
 }

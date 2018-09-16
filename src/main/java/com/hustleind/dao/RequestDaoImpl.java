@@ -21,7 +21,7 @@ public class RequestDaoImpl implements RequestDao {
     }*/
 
     @Override
-    public Request getRequestById(int id) {
+    public Request getRequestById(Long id) {
         if (id < 0) {
             return null;
         }

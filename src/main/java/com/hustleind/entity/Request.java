@@ -13,9 +13,9 @@ public class Request {
     @Getter
     @Setter
     @Id
-    @SequenceGenerator(name = "requestSeq", sequenceName = "REQUEST_SEQUENCE", allocationSize = 0)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usersSeq")
-    private int id;
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Getter
     @Setter

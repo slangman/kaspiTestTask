@@ -5,7 +5,7 @@ import com.hustleind.entity.Request;
 import java.util.List;
 
 public interface RequestDao {
-    Request getRequestById(int id);
+    Request getRequestById(Long id);
     List getAllRequests();
     boolean addRequest(Request request);
     boolean editRequest(Request request);

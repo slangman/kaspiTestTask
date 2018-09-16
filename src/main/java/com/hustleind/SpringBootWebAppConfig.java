@@ -50,10 +50,10 @@ public class SpringBootWebAppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/kaspi_test?serverTimezone=Asia/Dhaka&useUnicode=yes&characterEncoding=UTF-8");
-        dataSource.setUsername("root");
-        dataSource.setPassword("365308");
+        dataSource.setDriverClassName("org.h2.Driver");
+        dataSource.setUrl("jdbc:h2:~/test");
+        dataSource.setUsername("sa");
+        dataSource.setPassword("");
         return dataSource;
     }
 
@@ -93,7 +93,7 @@ public class SpringBootWebAppConfig extends WebMvcConfigurerAdapter {
 
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
         hibernateProperties.setProperty("hibernate.show_sql", "true");
         return hibernateProperties;
