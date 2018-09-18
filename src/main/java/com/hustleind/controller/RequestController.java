@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,7 +26,45 @@ public class RequestController {
         return "requestPage";
     }
 
-    @RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
+    private String sendRequest(@RequestParam(value = "firstName", required = false) String firstName,
+                               @RequestParam(value="middleName", required = false) String middleName,
+                               @RequestParam(value="secondName", required = false) String secondName,
+                               @RequestParam(value="companyName", required = false) String companyName,
+                               @RequestParam(value="bin", required = false) String bin,
+                               @RequestParam(value="mobileNumber", required = false) String mobileNumber,
+                               Model model) {
+        Request request = new Request();
+        request.setId(1L);
+        request.setFirstName(firstName);
+        request.setMiddleName(middleName);
+        request.setSecondName(secondName);
+        request.setCompanyName(companyName);
+        request.setBin(bin);
+        request.setMobileNumber(mobileNumber);
+        request.setCompanyNameAbb(requestService.generateAbbreviation(companyName));
+        String[] messages = requestService.checkRequest(request);
+        if (messages[0] == null && messages[1] == null && messages[2] == null) {
+            if (requestService.addRequest(request)) {
+                model.addAttribute("requestMessage", "Request sent successfully");
+            } else {
+                model.addAttribute("requestMessage", "Error while sending request");
+            }
+        } else {
+            if (messages[0] != null) {
+                model.addAttribute("mobileNumberMessage", messages[0]);
+            }
+            if (messages[1] != null) {
+                model.addAttribute("binMessage", messages[1]);
+            }
+            if (messages[2] != null) {
+                model.addAttribute("duplicateMessage", messages[2]);
+            }
+        }
+        return "requestPage";
+    }*/
+
+   @RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
     private String sendRequest(@RequestBody MultiValueMap<String, String> requestParams, Model model) {
         Request request = requestService.createRequestByParams(requestParams);
         String[] messages = requestService.checkRequest(request);

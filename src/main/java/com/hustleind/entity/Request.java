@@ -1,53 +1,90 @@
 package com.hustleind.entity;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "request")
+@Table(name = "tbl_request")
+
 public class Request {
-    @Getter
-    @Setter
+
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
-    @Setter
-    @NonNull
     private String mobileNumber;
-
-    @Getter
-    @Setter
-    @NotNull
     private String firstName;
-
-    @Getter
-    @Setter
-    @NotNull
     private String secondName;
-
-    @Getter
-    @Setter
     private String middleName;
-
-    @Getter
-    @Setter
-    @NotNull
     private String companyName;
-
-    @Getter
-    @Setter
     private String companyNameAbb;
-
-    @Getter
-    @Setter
-    @NotNull
     private String bin;
 
+    public Request() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCompanyNameAbb() {
+        return companyNameAbb;
+    }
+
+    public void setCompanyNameAbb(String companyNameAbb) {
+        this.companyNameAbb = companyNameAbb;
+    }
+
+    public String getBin() {
+        return bin;
+    }
+
+    public void setBin(String bin) {
+        this.bin = bin;
+    }
 }

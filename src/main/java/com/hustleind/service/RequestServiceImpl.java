@@ -64,8 +64,8 @@ public class RequestServiceImpl implements RequestService {
         return request;
     }
 
-    //@Override
-    private String generateAbbreviation(String companyName) {
+    @Override
+    public String generateAbbreviation(String companyName) {
         String[] splitted = companyName.split(" ");
         StringBuffer sb = new StringBuffer("");
         for (String s : splitted) {

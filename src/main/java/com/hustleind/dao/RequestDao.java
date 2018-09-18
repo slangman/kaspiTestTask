@@ -10,4 +10,5 @@ public interface RequestDao {
     boolean addRequest(Request request);
     boolean editRequest(Request request);
     boolean deleteRequest(Request request);
+    boolean deleteRequestById(Long id);
 }

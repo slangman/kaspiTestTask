@@ -1,37 +1,30 @@
 package com.hustleind.dao;
 
 import com.hustleind.entity.Request;
+
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Transactional
 @Repository
-public class RequestDaoImpl implements RequestDao {
+public class RequestDaoImplH2 implements  RequestDao {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-   /*@Autowired
-    public RequestDaoImpl(SessionFactory factory) {
-        this.factory = factory;
-    }*/
-
     @Override
     public Request getRequestById(Long id) {
-        if (id < 0) {
+        if (id <= 0) {
             return null;
         }
         return entityManager.find(Request.class, id);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public List<Request> getAllRequests() {
-        return (List<Request>)entityManager.createQuery("FROM Request").getResultList();
+    public List getAllRequests() {
+        return entityManager.createQuery("SELECT r FROM Request r").getResultList();
     }
 
     @Override
@@ -48,26 +41,26 @@ public class RequestDaoImpl implements RequestDao {
         if (request == null) {
             return false;
         }
-        Request editedRequest = getRequestById(request.getId());
-        editedRequest.setFirstName(request.getFirstName());
-        editedRequest.setSecondName(request.getSecondName());
-        editedRequest.setMiddleName(request.getMiddleName());
-        editedRequest.setCompanyName(request.getCompanyName());
-        editedRequest.setCompanyNameAbb(request.getCompanyNameAbb());
-        editedRequest.setBin(request.getBin());
-        editedRequest.setMobileNumber(request.getMobileNumber());
-        entityManager.flush();
+        entityManager.merge(request);
         return true;
     }
 
     @Override
     public boolean deleteRequest(Request request) {
-        if (request==null) {
+        if (request == null) {
             return false;
         }
         entityManager.remove(request);
         return true;
     }
 
-
+    @Override
+    public boolean deleteRequestById(Long id) {
+        if (id <= 0) {
+            return false;
+        }
+        Request request = getRequestById(id);
+        entityManager.remove(request);
+        return true;
+    }
 }

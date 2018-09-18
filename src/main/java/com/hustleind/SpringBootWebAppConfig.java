@@ -33,11 +33,11 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableAutoConfiguration
 @EnableTransactionManagement
-public class SpringBootWebAppConfig extends WebMvcConfigurerAdapter {
-    @Override
+public class SpringBootWebAppConfig /*extends WebMvcConfigurerAdapter*/ {
+    /*@Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
-    }
+    }*/
 
     @Bean
     public InternalResourceViewResolver viewResolver() {
@@ -47,7 +47,7 @@ public class SpringBootWebAppConfig extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
-    @Bean
+    /*@Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
@@ -55,7 +55,7 @@ public class SpringBootWebAppConfig extends WebMvcConfigurerAdapter {
         dataSource.setUsername("sa");
         dataSource.setPassword("");
         return dataSource;
-    }
+    }*/
 
     /*@Bean
     public LocalSessionFactoryBean sessionFactory() {
@@ -81,7 +81,7 @@ public class SpringBootWebAppConfig extends WebMvcConfigurerAdapter {
         return sessionFactory().getObject().createEntityManager();
     }*/
 
-    @Bean
+    /*@Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
@@ -97,6 +97,6 @@ public class SpringBootWebAppConfig extends WebMvcConfigurerAdapter {
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
         hibernateProperties.setProperty("hibernate.show_sql", "true");
         return hibernateProperties;
-    }
+    }*/
 
 }

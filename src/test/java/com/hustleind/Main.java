@@ -1,6 +1,5 @@
 package com.hustleind;
 
-import com.hustleind.dao.RequestDaoImpl;
 import com.hustleind.entity.Request;
 
 import java.util.List;

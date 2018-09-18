@@ -8,12 +8,12 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 @SpringBootApplication(scanBasePackages = {"com.hustleind"} , exclude = JpaRepositoriesAutoConfiguration.class)
 public class SpringBootWebApp extends SpringBootServletInitializer {
-    @Override
+    /*@Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(SpringBootWebApp.class);
-    }
+    }*/
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         SpringApplication.run(SpringBootWebApp.class, args);
     }
 }

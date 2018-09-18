@@ -14,4 +14,5 @@ public interface RequestService {
     Request createRequestByParams(MultiValueMap<String, String> requestParams);
     String[] checkRequest(Request request);
     String[] checkEditedRequest(Request request);
+    String generateAbbreviation(String companyName);
 }
