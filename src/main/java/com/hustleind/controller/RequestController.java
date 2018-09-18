@@ -3,6 +3,7 @@ package com.hustleind.controller;
 
 import com.hustleind.entity.Request;
 import com.hustleind.service.RequestService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ public class RequestController {
         this.requestService = requestService;
     }
 
+    @ApiOperation(value = "Add/edit request page")
     @RequestMapping(value = "/requestPage")
     private String requestPage() {
         return "requestPage";
@@ -33,6 +35,7 @@ public class RequestController {
      * @param model
      * @return same page with result messages
      */
+    @ApiOperation(value = "Add new request")
     @RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
     private String sendRequest(@RequestBody MultiValueMap<String, String> requestParams, Model model) {
         Request request = requestService.createRequestByParams(requestParams);
@@ -57,6 +60,7 @@ public class RequestController {
         return "requestPage";
     }
 
+    @ApiOperation(value = "View requests list page")
     @RequestMapping(value = "/viewAllRequests", method = RequestMethod.GET)
     private String viewAllRequests(Model model) {
         List<Request> requestsList = requestService.getAllRequests();
@@ -65,6 +69,7 @@ public class RequestController {
         return "viewAllRequests";
     }
 
+    @ApiOperation(value = "View request data page")
     @RequestMapping(value = "/viewRequest/{id}", method = RequestMethod.GET)
     private String viewRequest(@PathVariable("id") Long id, Model model) {
         Request requestForView = requestService.getRequestById(id);
@@ -79,6 +84,7 @@ public class RequestController {
      * @param model
      * @return
      */
+    @ApiOperation(value = "Open edit request page")
     @RequestMapping(value = "/editRequest/{id}", method = RequestMethod.GET)
     private String editRequestPage(@PathVariable("id") Long id, Model model) {
         Request requestForEdit = requestService.getRequestById(id);
@@ -93,6 +99,7 @@ public class RequestController {
      * @param model
      * @return same page with result messages
      */
+    @ApiOperation(value = "Send edited request")
     @RequestMapping(value = "/requestEdited", method = RequestMethod.POST)
     private String editRequest(@RequestBody MultiValueMap<String, String> requestParams, Model model) {
         Request request = requestService.createRequestByParams(requestParams);
@@ -114,6 +121,7 @@ public class RequestController {
         return "requestPage";
     }
 
+    @ApiOperation(value = "Delete request")
     @RequestMapping(value = "/deleteRequest/{id}", method = RequestMethod.GET)
     private String deleteRequest(@PathVariable("id") Long id, Model model) {
         Request requestToDelete = requestService.getRequestById(id);
