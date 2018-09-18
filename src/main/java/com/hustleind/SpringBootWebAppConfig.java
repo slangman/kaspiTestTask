@@ -33,11 +33,7 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableAutoConfiguration
 @EnableTransactionManagement
-public class SpringBootWebAppConfig /*extends WebMvcConfigurerAdapter*/ {
-    /*@Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }*/
+public class SpringBootWebAppConfig {
 
     @Bean
     public InternalResourceViewResolver viewResolver() {
@@ -46,57 +42,5 @@ public class SpringBootWebAppConfig /*extends WebMvcConfigurerAdapter*/ {
         resolver.setSuffix(".jsp");
         return resolver;
     }
-
-    /*@Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:~/test");
-        dataSource.setUsername("sa");
-        dataSource.setPassword("");
-        return dataSource;
-    }*/
-
-    /*@Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.hustleind.entity");
-        sessionFactory.setHibernateProperties(hibernateProperties());
-        return sessionFactory;
-    }
-
-    @Bean
-    public HibernateTransactionManager transactionManager(SessionFactory factory) {
-        return new HibernateTransactionManager(factory);
-    }
-
-    @Bean
-    public HibernateTemplate hibernateTemplate(SessionFactory sessionFactory) {
-        return new HibernateTemplate(sessionFactory);
-    }*/
-
-    /*@Bean
-    public EntityManager entityManager() {
-        return sessionFactory().getObject().createEntityManager();
-    }*/
-
-    /*@Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan("com.hustleind.entity");
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-        return em;
-    }
-
-    private final Properties hibernateProperties() {
-        Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
-        hibernateProperties.setProperty("hibernate.show_sql", "true");
-        return hibernateProperties;
-    }*/
 
 }

@@ -26,45 +26,14 @@ public class RequestController {
         return "requestPage";
     }
 
-    /*@RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
-    private String sendRequest(@RequestParam(value = "firstName", required = false) String firstName,
-                               @RequestParam(value="middleName", required = false) String middleName,
-                               @RequestParam(value="secondName", required = false) String secondName,
-                               @RequestParam(value="companyName", required = false) String companyName,
-                               @RequestParam(value="bin", required = false) String bin,
-                               @RequestParam(value="mobileNumber", required = false) String mobileNumber,
-                               Model model) {
-        Request request = new Request();
-        request.setId(1L);
-        request.setFirstName(firstName);
-        request.setMiddleName(middleName);
-        request.setSecondName(secondName);
-        request.setCompanyName(companyName);
-        request.setBin(bin);
-        request.setMobileNumber(mobileNumber);
-        request.setCompanyNameAbb(requestService.generateAbbreviation(companyName));
-        String[] messages = requestService.checkRequest(request);
-        if (messages[0] == null && messages[1] == null && messages[2] == null) {
-            if (requestService.addRequest(request)) {
-                model.addAttribute("requestMessage", "Request sent successfully");
-            } else {
-                model.addAttribute("requestMessage", "Error while sending request");
-            }
-        } else {
-            if (messages[0] != null) {
-                model.addAttribute("mobileNumberMessage", messages[0]);
-            }
-            if (messages[1] != null) {
-                model.addAttribute("binMessage", messages[1]);
-            }
-            if (messages[2] != null) {
-                model.addAttribute("duplicateMessage", messages[2]);
-            }
-        }
-        return "requestPage";
-    }*/
 
-   @RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
+    /**
+     *
+     * @param requestParams MultiValueMap with request fields
+     * @param model
+     * @return same page with result messages
+     */
+    @RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
     private String sendRequest(@RequestBody MultiValueMap<String, String> requestParams, Model model) {
         Request request = requestService.createRequestByParams(requestParams);
         String[] messages = requestService.checkRequest(request);
@@ -117,7 +86,14 @@ public class RequestController {
         return "requestPage";
     }
 
-    @RequestMapping(value="/requestEdited", method=RequestMethod.POST)
+    /**
+     * Controller for request editing page
+     *
+     * @param requestParams MultiValueMap with request fields
+     * @param model
+     * @return same page with result messages
+     */
+    @RequestMapping(value = "/requestEdited", method = RequestMethod.POST)
     private String editRequest(@RequestBody MultiValueMap<String, String> requestParams, Model model) {
         Request request = requestService.createRequestByParams(requestParams);
         String[] messages = requestService.checkEditedRequest(request);
@@ -138,12 +114,12 @@ public class RequestController {
         return "requestPage";
     }
 
-    @RequestMapping(value="/deleteRequest/{id}", method=RequestMethod.GET)
+    @RequestMapping(value = "/deleteRequest/{id}", method = RequestMethod.GET)
     private String deleteRequest(@PathVariable("id") Long id, Model model) {
         Request requestToDelete = requestService.getRequestById(id);
         if (!requestService.deleteRequest(requestToDelete)) {
             model.addAttribute("deleteMessage", "Unable to delete request");
-            return "redirect:/editRequest/"+id;
+            return "redirect:/editRequest/" + id;
         } else {
             model.addAttribute("deleteMessage", "Request successfully deleted");
             return "redirect:/viewAllRequests";

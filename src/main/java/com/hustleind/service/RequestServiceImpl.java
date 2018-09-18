@@ -64,6 +64,11 @@ public class RequestServiceImpl implements RequestService {
         return request;
     }
 
+    /**
+     * Generates company name abbreviation
+     * @param companyName
+     * @return
+     */
     @Override
     public String generateAbbreviation(String companyName) {
         String[] splitted = companyName.split(" ");
@@ -74,6 +79,11 @@ public class RequestServiceImpl implements RequestService {
         return sb.toString().toUpperCase();
     }
 
+    /** Checks request validity
+     *
+     * @param request
+     * @return true if entered request meets requirements
+     */
     @Override
     public String[] checkRequest(Request request) {
         String[] messages = new String[3];
@@ -108,6 +118,11 @@ public class RequestServiceImpl implements RequestService {
         return messages;
     }
 
+    /**
+     * Checks entered request for duplicates
+     * @param request
+     * @return true if database stores record with same combination of fields
+     */
     private boolean containsDuplicates(Request request) {
         boolean result = false;
         if (request == null) {
@@ -125,18 +140,34 @@ public class RequestServiceImpl implements RequestService {
         return result;
     }
 
+    /**
+     * Checks whether entered mobileNumber fits mask +7-XXX-XXXXXXX
+     * @param mobileNumber
+     * @return tru if entered mobileNumber meets requirements
+     */
     private boolean mobileNumberIsValid(String mobileNumber) {
         Pattern pattern = Pattern.compile("[+]7[-]\\d{3}[-]\\d{7}");
         Matcher matcher = pattern.matcher(mobileNumber);
         return matcher.matches();
     }
 
+    /**
+     * Checks whether entered bin lenth is 12 characters containing only digits
+     * @param bin
+     * @return true if entered bin meets requirement
+     */
     private boolean binIsValid(String bin) {
         Pattern pattern = Pattern.compile("\\d{12}");
         Matcher matcher = pattern.matcher(bin);
         return matcher.matches();
     }
 
+    /**
+     *
+     * @param request Request object verified for duplicates
+     * @param requests Collection of requests stored in database
+     * @return true if there is a record in database with same firstName, middleName, secondName
+     */
     private boolean containsNameDuplicates(Request request, List<Request> requests) {
         boolean result = false;
         for (Request existingRequest : requests) {
@@ -156,6 +187,12 @@ public class RequestServiceImpl implements RequestService {
         return result;
     }
 
+    /**
+     *
+     * @param request Request object verified for duplicates
+     * @param requests Collection of requests stored in database
+     * @return true if there is a record in database with same mobileNumber
+     */
     private boolean containsMobileNumberDuplicates(Request request, List<Request> requests) {
         boolean result = false;
         for (Request existingRequest : requests) {
@@ -166,6 +203,12 @@ public class RequestServiceImpl implements RequestService {
         return result;
     }
 
+    /**
+     *
+     * @param request Request object verified for duplicates
+     * @param requests Collection of requests stored in database
+     * @return true if there is a record in database with same companyName
+     */
     private boolean containsCompanyNameDuplicates(Request request, List<Request> requests) {
         boolean result = false;
         for (Request existingRequest : requests) {
@@ -176,6 +219,12 @@ public class RequestServiceImpl implements RequestService {
         return result;
     }
 
+    /**
+     *
+     * @param request Request object verified for duplicates
+     * @param requests Collection of requests stored in database
+     * @return true if there is a record in database with same bin
+     */
     private boolean containsBinDuplicates(Request request, List<Request> requests) {
         boolean result = false;
         for (Request existingRequest : requests) {
